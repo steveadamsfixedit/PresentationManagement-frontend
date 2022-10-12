@@ -4,12 +4,12 @@
       <h1 class="text-6xl">Event Title</h1>
       <h2 class="text-2xl">Location</h2>
     </div>
-    <div class="bg-gray-200 p-10">
+    <div class="bg-gray-200 p-8 pb-2">
       <div v-for="presentation in presentations">
         <font-awesome-icon :icon="['far', 'calendar']" class="w-5 h-5 mr-2 text-gray-600" />
         <span class=" ml-2text-gray-600">{{ presentation.date }}: {{ presentation.time }} - {{ presentation.endtime }}</span>
-        <h1 class="ml-8 text-3xl">{{ presentation.title }}</h1>
-        <h2 class="ml-8 text-lg text-gray-600">{{ presentation.speaker }}</h2>
+        <h1 class="ml-8 text-4xl">{{ presentation.title }}</h1>
+        <h2 class="ml-8 text-lg text-gray-600">Presented by: {{ presentation.speaker }}</h2>
 <!--        {{ presentation }}-->
       </div>
     </div>
