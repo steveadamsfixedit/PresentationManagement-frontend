@@ -6,7 +6,11 @@
     </div>
     <div class="bg-gray-200 p-10">
       <div v-for="presentation in presentations">
-        {{ presentation }}
+        <font-awesome-icon :icon="['far', 'calendar']" class="w-5 h-5 mr-2 text-gray-600" />
+        <span class=" ml-2text-gray-600">{{ presentation.date }}: {{ presentation.time }} - {{ presentation.endtime }}</span>
+        <h1 class="ml-8 text-3xl">{{ presentation.title }}</h1>
+        <h2 class="ml-8 text-lg text-gray-600">{{ presentation.speaker }}</h2>
+<!--        {{ presentation }}-->
       </div>
     </div>
   </div>
@@ -24,14 +28,8 @@ import { computed } from "@vue/reactivity";
 
 // ICONS
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-library.add(faMagnifyingGlass);
-
-import UploadCSV from '@/components/modals/uploadCSV.vue';
-import EditPresentation from "@/components/modals/EditPresentation.vue";
-import CreatePresentation from "@/components/modals/CreatePresentation.vue";
-import DeletePresentation from "@/components/modals/DeletePresentation.vue";
-import UploadPresentation from "@/components/modals/UploadPresentation.vue";
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+library.add(faCalendar);
 
 // STORES
 import { usePresentationStore } from '@/stores/presentations.js';
