@@ -1,10 +1,10 @@
 <template>
   <button
       @click="isOpen = true"
-      class="text-white font-light focus:ring-4 focus:ring-zinc-800 font-medium rounded-md text-sm px-5 py-2 m-2 mx-auto bg-zinc-500 hover:text-emerald-500 hover:bg-zinc-800 hover:border-emerald-500 transition duration-200 mr-2"
+      class="text-white font-light focus:ring-4 focus:ring-zinc-800 font-medium rounded-md text-sm px-5 py-2.5 m-2 mx-auto bg-zinc-500 hover:text-emerald-500 hover:bg-zinc-800 hover:border-emerald-500 transition duration-200 "
       type="button"
   >
-    Edit
+    Create Presentation
   </button>
 
   <div
@@ -24,11 +24,11 @@
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         </button>
         <div class="py-6 px-6 lg:px-8 text-left">
-          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">Edit Presentation</h3>
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">Create Presentation</h3>
           <form class="space-y-6" @submit.prevent="onSubmit">
             <div>
               <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Presentation Title</label>
-              <input type="text" v-model="title" name="name" id="name"  placeholder="Introduction to..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+              <input type="text" v-model="title" name="name" id="name" placeholder="Introduction to..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div>
               <label for="speaker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Speaker Name - Separate multiple by comma (eg. John Smith, Bob Adams)</label>
@@ -48,7 +48,7 @@
             </div>
             <div class="text-center">
               <button type="button" @click="isOpen = false" class="w-1/3 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-800 mr-10">Cancel</button>
-              <button type="submit" value="submit" class="w-1/3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-400 dark:hover:bg-blue-500 dark:focus:ring-blue-800">Edit</button>
+              <button type="submit" value="submit" class="w-1/3 text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-400 dark:hover:bg-emerald-500 dark:focus:ring-emerald-800">Create</button>
             </div>
           </form>
         </div>
@@ -61,16 +61,15 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 library.add(faPencil);
-// PROPS
-const props = defineProps(['presentation']);
+
 //MISC
 import { ref } from 'vue';
 let isOpen = ref(false);
-let date = ref(props.presentation.date);
-let time = ref(props.presentation.time);
-let location = ref(props.presentation.location);
-let title = ref(props.presentation.title);
-let speaker = ref(props.presentation.speaker);
+let date = ref("");
+let time = ref("");
+let location = ref("");
+let title = ref("");
+let speaker = ref("");
 
 // STORES
 import { usePresentationStore } from '@/stores/presentations.js';
@@ -84,7 +83,7 @@ async function onSubmit() {
     speaker: speaker.value
   };
   // console.log(presentation);
-  await presentationStore.updatePresentation(props.presentation.id, presentation);
+  await presentationStore.createPresentation(presentation);
   isOpen.value = false;
 }
 </script>

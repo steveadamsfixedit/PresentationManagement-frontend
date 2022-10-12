@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
 	{
-		path: '/',
+		path: '/landing/',
 		component: () => import('@/views/page/Index.vue')
 	},
 	{
 		path: '/presentations/',
 		component: () => import('@/views/page/Presentations.vue')
+	},
+	{
+		path: '/',
+		component: () => import('@/views/page/Displays.vue')
 	},
 	{
 		path: '/:catchAll(.*)',
