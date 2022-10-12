@@ -4,7 +4,11 @@
       <h1 class="text-6xl">Event Title</h1>
       <h2 class="text-2xl">Location</h2>
     </div>
-    {{ presentations }}
+    <div class="bg-gray-200 p-10">
+      <div v-for="presentation in presentations">
+        {{ presentation }}
+      </div>
+    </div>
   </div>
   <div class="m-10" v-else>
     <h1 class="text-2xl">Select which location this display is at:</h1>

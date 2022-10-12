@@ -66,9 +66,10 @@ const handleCSVUpload = async() => {
       for (const item of results.data) {
         let presentation = {
           time: item[0].trim() + "T" + item[1].trim() + "Z",
-          location: item[2].trim(),
-          title: item[3].trim(),
-          speaker: item[4].trim()
+          endtime: item[0].trim() + "T" + item[2].trim() + "Z",
+          location: item[3].trim(),
+          title: item[4].trim(),
+          speaker: item[5].trim()
         };
         // console.log(presentation);
         await presentationStore.createPresentation(presentation);

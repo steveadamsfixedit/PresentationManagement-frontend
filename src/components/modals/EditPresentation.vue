@@ -43,8 +43,12 @@
               <input type="text" v-model="date" name="date" id="date" placeholder="YYYY-MM-DD" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div>
-              <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Time</label>
+              <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Start Time</label>
               <input type="text" v-model="time" name="time" id="time" placeholder="HH:MM:SS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+            </div>
+            <div>
+              <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">End Time</label>
+              <input type="text" v-model="endtime" name="time" id="time" placeholder="HH:MM:SS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div class="text-center">
               <button type="button" @click="isOpen = false" class="w-1/3 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-800 mr-10">Cancel</button>
@@ -68,6 +72,7 @@ import { ref } from 'vue';
 let isOpen = ref(false);
 let date = ref(props.presentation.date);
 let time = ref(props.presentation.time);
+let endtime = ref(props.presentation.endtime);
 let location = ref(props.presentation.location);
 let title = ref(props.presentation.title);
 let speaker = ref(props.presentation.speaker);
@@ -79,6 +84,7 @@ const presentationStore = usePresentationStore();
 async function onSubmit() {
   let presentation = {
     time: date.value + "T" + time.value + "Z",
+    endtime: date.value + "T" + endtime.value + "Z",
     location: location.value,
     title: title.value,
     speaker: speaker.value

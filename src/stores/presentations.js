@@ -32,6 +32,7 @@ export const usePresentationStore = defineStore('presentation', {
 						const fixed = presentation.time
 						presentation.date = fixed.substring(0, 10)
 						presentation.time = fixed.substring(11, 19)
+						presentation.endtime = presentation.endtime.substring(11, 19)
 					})
 				})
 		},
