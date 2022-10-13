@@ -39,16 +39,16 @@
               <input type="text" v-model="location" name="location" id="location" placeholder="Ballroom 1" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div>
-              <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date</label>
+              <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date(YYYY-MM-DD)</label>
               <input type="text" v-model="date" name="date" id="date" placeholder="YYYY-MM-DD" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div>
-              <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Start Time</label>
-              <input type="text" v-model="time" name="time" id="time" placeholder="HH:MM:SS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+              <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Start Time(HH:MM)</label>
+              <input type="text" v-model="time" name="time" id="time" placeholder="HH:MM" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div>
-              <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">End Time</label>
-              <input type="text" v-model="endtime" name="time" id="time" placeholder="HH:MM:SS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+              <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">End Time(HH:MM)</label>
+              <input type="text" v-model="endtime" name="time" id="time" placeholder="HH:MM" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div class="text-center">
               <button type="button" @click="isOpen = false" class="w-1/3 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-800 mr-10">Cancel</button>
@@ -61,6 +61,8 @@
   </div>
 </template>
 <script setup>
+
+// TODO-Make sure endtime is after time
 // ICONS
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
@@ -70,9 +72,15 @@ const props = defineProps(['presentation']);
 //MISC
 import { ref } from 'vue';
 let isOpen = ref(false);
-let date = ref(props.presentation.date);
+let date = ref("");
 let time = ref(props.presentation.time);
 let endtime = ref(props.presentation.endtime);
+
+// date.value = `${new Date(time.value).getFullYear()}-${new Date(time.value).getMonth()+1}-${new Date(time.value).getDate()}`
+date.value = new Date(time.value).toISOString().split('T')[0]
+time.value = `${new Date(time.value).getHours() + 1}:${new Date(time.value).getMinutes()}`
+endtime.value = `${new Date(endtime.value).getHours() + 1}:${new Date(endtime.value).getMinutes()}`
+
 let location = ref(props.presentation.location);
 let title = ref(props.presentation.title);
 let speaker = ref(props.presentation.speaker);
@@ -81,10 +89,20 @@ let speaker = ref(props.presentation.speaker);
 import { usePresentationStore } from '@/stores/presentations.js';
 const presentationStore = usePresentationStore();
 
+let startdate = new Date();
+
+let enddate = new Date();
+
 async function onSubmit() {
+  startdate.setFullYear(Number(date.value.substring(0, 4)), Number(date.value.substring(5, 7))-1, Number(date.value.substring(8, 10)))
+  startdate.setHours(Number(time.value.substring(0, 2)), Number(time.value.substring(3, 5)), 0)
+
+  enddate.setFullYear(Number(date.value.substring(0, 4)), Number(date.value.substring(5, 7))-1, Number(date.value.substring(8, 10)))
+  enddate.setHours(Number(endtime.value.substring(0, 2)), Number(time.value.substring(3, 5)), 0)
+
   let presentation = {
-    time: date.value + "T" + time.value + "Z",
-    endtime: date.value + "T" + endtime.value + "Z",
+    time: startdate.toISOString(),
+    endtime: enddate.toISOString(),
     location: location.value,
     title: title.value,
     speaker: speaker.value

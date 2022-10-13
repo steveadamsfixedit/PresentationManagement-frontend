@@ -1,16 +1,31 @@
 <template>
-  <div v-if="selectedLocation != null">
-    <div class="bg-gray-300 p-10">
-      <h1 class="text-6xl">Event Title</h1>
-      <h2 class="text-2xl">Location</h2>
+  <div v-if="selectedLocation != null" class="bg-zinc-800 h-screen">
+    <div class="grid grid-cols-6 gap-4 mb-16">
+      <div class="mt-16 text-white text-right col-span-2 pt-4">
+        <h1 class="text-6xl font-light">{{ date.toLocaleTimeString() }}</h1>
+        <h2 class="text-4xl font-light text-gray-300 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
+      </div>
+      <div class="mt-16 text-white text-left col-span-4">
+        <h2 class="text-9xl">{{ selectedLocation }}</h2>
+      </div>
     </div>
-    <div class="bg-gray-200 p-8 pb-2">
-      <div v-for="presentation in presentations">
-        <font-awesome-icon :icon="['far', 'calendar']" class="w-5 h-5 mr-2 text-gray-600" />
-        <span class=" ml-2text-gray-600">{{ presentation.date }}: {{ presentation.time }} - {{ presentation.endtime }}</span>
-        <h1 class="ml-8 text-4xl">{{ presentation.title }}</h1>
-        <h2 class="ml-8 text-lg text-gray-600">Presented by: {{ presentation.speaker }}</h2>
-<!--        {{ presentation }}-->
+    <div class="mt-8 grid grid-cols-6 gap-x-6 grid-rows-auto" v-for="presentation in presentations" >
+      <div class="text-white text-right col-span-2">
+        <div class="pt-3" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">
+          <h2 class="text-3xl text-emerald-400">In Progress</h2>
+          <h3 class="text-2xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
+        </div>
+        <div class="pt-3" v-else-if="new Date(presentation.endtime) < date">
+          <h2 class="text-3xl text-sky-500">Completed</h2>
+          <h3 class="text-2xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
+        </div>
+        <div class="pt-6" v-else>
+          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
+        </div>
+      </div>
+      <div class="text-white text-left col-span-4">
+        <h2 class="text-5xl">{{ presentation.title }}</h2>
+        <h2 class="text-3xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>
       </div>
     </div>
   </div>
@@ -42,7 +57,44 @@ let locations = computed(() => presentationStore.getLocation);
 import { ref } from 'vue';
 let selectedLocation = ref(null)
 
+const date = ref(new Date());
+const month = ref(null);
+const day = ref(null);
+
 let presentations = computed(() => presentationStore.getPresentationsAt(selectedLocation))
+
+
+const months = {
+  0: "January",
+  1: "February",
+  2: "March",
+  3: "April",
+  4: "May",
+  5: "June",
+  6: "July",
+  7: "August",
+  8: "September",
+  9: "October",
+  10: "November",
+  11: "December"
+}
+
+const days = {
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday",
+  7: "Sunday"
+}
+
+
+setInterval(() => {
+  date.value = new Date()
+  day.value = days[date.value.getDay()]
+  month.value = months[date.value.getMonth()]
+}, 1000)
 
 </script>
 

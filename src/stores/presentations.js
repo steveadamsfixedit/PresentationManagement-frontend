@@ -28,12 +28,6 @@ export const usePresentationStore = defineStore('presentation', {
 			Api.get('/presentation/')
 				.then(response => {
 					this.presentations = response.data.presentations
-					this.presentations.forEach(presentation => {
-						const fixed = presentation.time
-						presentation.date = fixed.substring(0, 10)
-						presentation.time = fixed.substring(11, 19)
-						presentation.endtime = presentation.endtime.substring(11, 19)
-					})
 				})
 		},
 		async createPresentation(presentation){
@@ -112,6 +106,10 @@ export const usePresentationStore = defineStore('presentation', {
 				if(presentation.location === selectedLocation.value){
 					presentationsAtLocation.push(presentation);
 				}
+			})
+
+			presentationsAtLocation.sort((a, b) => {
+				return new Date(a.time) - new Date(b.time)
 			})
 
 			return presentationsAtLocation

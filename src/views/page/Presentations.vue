@@ -53,13 +53,13 @@
             <tbody>
               <tr class="border-b" v-for="presentation in presentationStore.getPresentations" :key="presentation.id">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                   {{ presentation.date }}
+                  {{ new Date(presentation.time).getMonth() +1 }}/{{ new Date(presentation.time).getDate() }}/{{ new Date(presentation.time).getFullYear() }}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ presentation.time }}
+                  {{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ presentation.endtime }}
+                  {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ presentation.location }}
