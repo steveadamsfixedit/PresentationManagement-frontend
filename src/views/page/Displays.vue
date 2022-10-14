@@ -32,6 +32,7 @@
     <div class="h-100">
       <div class="absolute inset-x-0 bottom-0 h-100 p-10">
         <img
+            alt="Sponsor Logo"
             v-for="sponsor in selectedSponsors"
             :src="`${img_url}/images/sponsors/${sponsor.sponsor}`"
             class="max-h-100"
@@ -157,6 +158,6 @@ input[type=checkbox] + label{
   height: 100px;
   width: 100px;
   display:inline-block;
-  padding: 0 0 0 0px;
+  padding: 0 0 0 0;
 }
 </style>
