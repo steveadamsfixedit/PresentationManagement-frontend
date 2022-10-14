@@ -93,7 +93,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 library.add(faMagnifyingGlass);
 
-import UploadCSV from '@/components/modals/uploadCSV.vue';
+import UploadCSV from '@/components/modals/UploadCSV.vue';
 import EditPresentation from "@/components/modals/EditPresentation.vue";
 import CreatePresentation from "@/components/modals/CreatePresentation.vue";
 import DeletePresentation from "@/components/modals/DeletePresentation.vue";
