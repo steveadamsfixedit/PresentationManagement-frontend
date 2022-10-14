@@ -56,7 +56,7 @@
         <label
             :for="sponsor.sponsor"
             :class="{ 'border border-4 border-emerald-400 opacity-50': sponsor.active }"
-            :style="`background-image: url('${img_url}/api/images/sponsors/${sponsor.sponsor}'); height: 100px; width: 100px; display:inline-block;padding: 0 0 0 0px;`"
+            :style="`background-image: url('${img_url}/images/sponsors/${sponsor.sponsor}'); height: 100px; width: 100px; display:inline-block;padding: 0 0 0 0px;`"
         ></label>
       </div>
 
