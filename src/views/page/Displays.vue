@@ -33,7 +33,7 @@
       <div class="absolute inset-x-0 bottom-0 h-100 p-10">
         <img
             v-for="sponsor in selectedSponsors"
-            :src="`http://localhost:8085/api/images/sponsors/${sponsor.sponsor}`"
+            :src="`${img_url}/images/sponsors/${sponsor.sponsor}`"
             class="max-h-100"
         />
       </div>
@@ -56,7 +56,7 @@
         <label
             :for="sponsor.sponsor"
             :class="{ 'border border-4 border-emerald-400 opacity-50': sponsor.active }"
-            :style="`background-image: url('http://localhost:8085/api/images/sponsors/${sponsor.sponsor}'); height: 100px; width: 100px; display:inline-block;padding: 0 0 0 0px;`"
+            :style="`background-image: url('${img_url}/api/images/sponsors/${sponsor.sponsor}'); height: 100px; width: 100px; display:inline-block;padding: 0 0 0 0px;`"
         ></label>
       </div>
 
@@ -84,6 +84,7 @@ let locations = computed(() => presentationStore.getLocation);
 let sponsors = computed(() => presentationStore.getSponsors);
 
 import { ref } from 'vue';
+const img_url = ref(import.meta.env.VITE_API_URL || "");
 const settings = ref(true)
 
 let selectedLocation = ref(null)
