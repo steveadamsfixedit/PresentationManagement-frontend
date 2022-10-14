@@ -33,7 +33,13 @@ export const usePresentationStore = defineStore('presentation', {
 				})
 			Api.get('/settings/sponsor/')
 				.then(response => {
-					this.sponsors = response.data.sponsors
+					let temp = response.data.sponsors
+					temp.forEach(sponsor => {
+						this.sponsors.push({
+							sponsor: sponsor,
+							active: false
+						})
+					})
 				})
 		},
 		async createPresentation(presentation){
