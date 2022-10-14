@@ -32,6 +32,7 @@
   <div class="m-10" v-else>
     <h1 class="text-2xl">Select which location this display is at:</h1>
     <br>
+<!--    https://stackoverflow.com/questions/33816596/how-to-make-a-select-image-in-form-->
     <ul>
       <li v-for="location in locations" :id="location.id" class="mt-5 text-xl text-blue-500 underline transition duration-200 hover:-translate-y-2" @click="selectedLocation = location">{{ location }}</li>
     </ul>

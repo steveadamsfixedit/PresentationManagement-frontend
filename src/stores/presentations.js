@@ -5,10 +5,12 @@ import { notify } from "@kyvg/vue3-notification";
 export const usePresentationStore = defineStore('presentation', {
 	state: () => ({
 		presentations: [],
+		sponsors: [],
 		token: null
 	}),
 	getters: {
 		getPresentations: state => state.presentations,
+		getSponsors: state => state.sponsors,
 		getToken: state => state.token,
 		getLocation(state){
 			let locations = []
@@ -28,6 +30,10 @@ export const usePresentationStore = defineStore('presentation', {
 			Api.get('/presentation/')
 				.then(response => {
 					this.presentations = response.data.presentations
+				})
+			Api.get('/settings/sponsor/')
+				.then(response => {
+					this.sponsors = response.data.sponsors
 				})
 		},
 		async createPresentation(presentation){
