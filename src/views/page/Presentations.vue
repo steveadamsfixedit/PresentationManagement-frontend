@@ -99,11 +99,10 @@ import EditPresentation from "@/components/modals/EditPresentation.vue";
 import CreatePresentation from "@/components/modals/CreatePresentation.vue";
 import DeletePresentation from "@/components/modals/DeletePresentation.vue";
 import UploadPresentation from "@/components/modals/UploadPresentation.vue";
-import UploadPresentation from "@/components/modals/UploadSponsor.vue";
+import UploadSponsors from "@/components/modals/UploadSponsors.vue";
 
 // STORES
 import { usePresentationStore } from '@/stores/presentations.js';
-import UploadSponsors from "@/components/modals/UploadSponsors.vue";
 
 const presentationStore = usePresentationStore();
 presentationStore.updateDB()
