@@ -112,6 +112,23 @@ export const usePresentationStore = defineStore('presentation', {
 					});
 				});
 		},
+		async uploadSponsor(sponsor){
+			Api.put(`/settings/sponsor/`, sponsor, { headers: { 'Content-Type':'multipart/form-data' } })
+				.then(() => {
+					this.updateDB()
+					notify({
+						type: 'success',
+						title: "Sponsor uploaded.",
+					});
+				})
+				.catch((err) => {
+					notify({
+						type: 'error',
+						title: `Error Code: ${err.response.status}`,
+						text: err.response.data.error
+					});
+				});
+		},
 		getPresentationsAt(selectedLocation) {
 			let presentationsAtLocation = [];
 			this.presentations.forEach((presentation) => {

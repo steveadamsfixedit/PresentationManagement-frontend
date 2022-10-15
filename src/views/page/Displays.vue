@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="text-white text-left col-span-4">
-        <h2 class="text-5xl">{{ presentation.title }}</h2>
-        <h2 class="text-3xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>
+        <h2 class="text-8xl">{{ presentation.title }}</h2>
+<!--        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>-->
       </div>
     </div>
 
@@ -57,7 +57,8 @@
         <label
             :for="sponsor.sponsor"
             :class="{ 'border border-4 border-emerald-400 opacity-50': sponsor.active }"
-            :style="`background-image: url('${img_url}/images/sponsors/${sponsor.sponsor}'); height: 100px; width: 100px; display:inline-block;padding: 0 0 0 0px;`"
+            class="h-50"
+            :style="`background-image: url('${img_url}/images/sponsors/${sponsor.sponsor}'); display:inline-block;padding: 0 0 0 0px;`"
         ></label>
       </div>
 

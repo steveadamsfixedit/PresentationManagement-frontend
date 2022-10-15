@@ -10,6 +10,7 @@
             </label>
           </div>
           <div class="flex mt-4 mr-4">
+            <upload-sponsors />
             <create-presentation />
             <upload-c-s-v />
           </div>
@@ -98,9 +99,11 @@ import EditPresentation from "@/components/modals/EditPresentation.vue";
 import CreatePresentation from "@/components/modals/CreatePresentation.vue";
 import DeletePresentation from "@/components/modals/DeletePresentation.vue";
 import UploadPresentation from "@/components/modals/UploadPresentation.vue";
+import UploadPresentation from "@/components/modals/UploadSponsor.vue";
 
 // STORES
 import { usePresentationStore } from '@/stores/presentations.js';
+import UploadSponsors from "@/components/modals/UploadSponsors.vue";
 
 const presentationStore = usePresentationStore();
 presentationStore.updateDB()
