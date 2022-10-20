@@ -11,7 +11,7 @@
         <h2 class="text-3xl font-light text-gray-300 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
       </div>
       <div class="text-white text-left col-span-4 flex">
-        <h2 class="text-8xl">{{ selectedLocation }}</h2>
+        <h2 class="text-8xl">-{{ selectedLocation }}</h2>
       </div>
     </div>
     <div class="text-white" v-for="presentation in presentations">
@@ -52,13 +52,13 @@
 <!--      </div>-->
 <!--    </div>-->
 
-    <div class="h-100">
-      <div class="absolute inset-x-0 bottom-0 h-100 p-10">
+    <div>
+      <div class="absolute inset-x-0 bottom-0 p-3">
         <img
             alt="Sponsor Logo"
             v-for="sponsor in selectedSponsors"
             :src="`${img_url}/images/sponsors/${sponsor.sponsor}`"
-            class="max-h-100"
+            class="max-h-40 align-center mx-auto"
         />
       </div>
     </div>
