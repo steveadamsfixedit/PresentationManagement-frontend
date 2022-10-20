@@ -5,26 +5,26 @@
         <h1 class="text-6xl font-light">{{ date.toLocaleTimeString() }}</h1>
         <h2 class="text-4xl font-light text-gray-300 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
       </div>
-      <div class="mt-16 text-white text-left col-span-4">
+      <div class="mt-16 text-white text-left col-span-4 flex">
         <h2 class="text-9xl">{{ selectedLocation }}</h2>
       </div>
     </div>
     <div class="mt-8 grid grid-cols-6 gap-x-6 grid-rows-auto" v-for="presentation in presentations" >
       <div class="text-white text-right col-span-2">
         <div class="pt-3" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">
-          <h2 class="text-3xl text-emerald-400">In Progress</h2>
-          <h3 class="text-2xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
-        </div>
-        <div class="pt-3" v-else-if="new Date(presentation.endtime) < date">
-          <h2 class="text-3xl text-sky-500">Completed</h2>
-          <h3 class="text-2xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
-        </div>
-        <div class="pt-6" v-else>
+          <h2 class="text-4xl text-emerald-400">In Progress</h2>
           <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
         </div>
+        <div class="pt-3" v-else-if="new Date(presentation.endtime) < date">
+          <h2 class="text-4xl text-sky-500">Completed</h2>
+          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
+        </div>
+        <div class="pt-6" v-else>
+          <h3 class="text-4xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
+        </div>
       </div>
-      <div class="text-white text-left col-span-4">
-        <h2 class="text-8xl">{{ presentation.title }}</h2>
+      <div class="text-white text-left col-span-4 flex">
+        <h2 class="text-6xl">{{ presentation.title }}</h2>
 <!--        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>-->
       </div>
     </div>
