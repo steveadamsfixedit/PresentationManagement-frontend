@@ -1,33 +1,56 @@
 <template>
-  <div v-if="!settings" class="bg-zinc-800 h-screen">
-    <div class="grid grid-cols-6 gap-4 mb-16">
-      <div class="mt-16 text-white text-right col-span-2 pt-4">
-        <h1 class="text-6xl font-light">{{ date.toLocaleTimeString() }}</h1>
-        <h2 class="text-4xl font-light text-gray-300 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
-      </div>
-      <div class="mt-16 text-white text-left col-span-4 flex">
-        <h2 class="text-9xl">{{ selectedLocation }}</h2>
-      </div>
-    </div>
-    <div class="mt-8 grid grid-cols-6 gap-x-6 grid-rows-auto" v-for="presentation in presentations" >
+  <div v-if="!settings" class="h-screen" style="background-color: #1a2751;">
+    <img
+      src="@/assets/HeaderLogo.jpg"
+      alt="Logo"
+      class="max-w-4xl align-center mx-auto"
+      />
+    <div class="grid grid-cols-6 gap-4 mb-5">
       <div class="text-white text-right col-span-2">
-        <div class="pt-3" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">
-          <h2 class="text-4xl text-emerald-400">In Progress</h2>
-          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
-        </div>
-        <div class="pt-3" v-else-if="new Date(presentation.endtime) < date">
-          <h2 class="text-4xl text-sky-500">Completed</h2>
-          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
-        </div>
-        <div class="pt-6" v-else>
-          <h3 class="text-4xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>
-        </div>
+        <h1 class="text-6xl font-light">{{ date.toLocaleTimeString() }}</h1>
+        <h2 class="text-3xl font-light text-gray-300 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
       </div>
       <div class="text-white text-left col-span-4 flex">
-        <h2 class="text-6xl">{{ presentation.title }}</h2>
-<!--        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>-->
+        <h2 class="text-8xl">{{ selectedLocation }}</h2>
       </div>
     </div>
+    <div class="text-white" v-for="presentation in presentations">
+      <div class="pt-6 flex mt-2" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">
+        <h2 class="text-2xl text-emerald-400 mx-6">In Progress</h2>
+        <h2 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h2>
+      </div>
+<!--      <div class="pt-3 flex" v-else-if="new Date(presentation.endtime) < date">-->
+<!--        <h2 class="text-3xl text-sky-500 mx-4">Completed</h2>-->
+<!--        <h2 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h2>-->
+<!--      </div>-->
+      <div class="pt-6 flex mt-2" v-else-if="new Date(presentation.time) >= date">
+        <h2 class="text-3xl mx-6">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h2>
+      </div>
+      <div class="text-white text-left mx-4 pb-1 border-b-2 border-slate-500"  v-if="new Date(presentation.time) >= date">
+        <h2 class="text-5xl">{{ presentation.title }}</h2>
+        <!--        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>-->
+      </div>
+
+    </div>
+<!--    <div class="mt-8 grid grid-cols-6 gap-x-6 grid-rows-auto" v-for="presentation in presentations" >-->
+<!--      <div class="text-white text-right col-span-2">-->
+<!--        <div class="pt-3" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">-->
+<!--          <h2 class="text-4xl text-emerald-400">In Progress</h2>-->
+<!--          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>-->
+<!--        </div>-->
+<!--        <div class="pt-3" v-else-if="new Date(presentation.endtime) < date">-->
+<!--          <h2 class="text-4xl text-sky-500">Completed</h2>-->
+<!--          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>-->
+<!--        </div>-->
+<!--        <div class="pt-6" v-else>-->
+<!--          <h3 class="text-4xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="text-white text-left col-span-4 flex"  v-if="new Date(presentation.endtime) >= date">-->
+<!--        <h2 class="text-6xl">{{ presentation.title }}</h2>-->
+<!--&lt;!&ndash;        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>&ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
 
     <div class="h-100">
       <div class="absolute inset-x-0 bottom-0 h-100 p-10">

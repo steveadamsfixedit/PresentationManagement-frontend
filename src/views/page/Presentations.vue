@@ -107,6 +107,14 @@ import { usePresentationStore } from '@/stores/presentations.js';
 const presentationStore = usePresentationStore();
 presentationStore.updateDB()
 
+// import { ref } from 'vue';
+// const timer = ref("");
+
+const timer = setInterval(() => {
+  presentationStore.updateDB()
+}, 15000)
+
+
 // presentationStore.getters.getPresentations()
 
 </script>

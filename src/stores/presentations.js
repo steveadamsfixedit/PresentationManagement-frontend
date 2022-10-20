@@ -45,7 +45,6 @@ export const usePresentationStore = defineStore('presentation', {
 		async createPresentation(presentation){
 			Api.post('/presentation/', presentation)
 				.then(() => {
-					this.updateDB()
 					notify({
 						type: 'success',
 						title: "New Presentation Created",
