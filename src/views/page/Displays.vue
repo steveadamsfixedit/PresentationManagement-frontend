@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!settings" class="h-screen" style="background-color: #1a2751;">
+  <div v-if="!settings" class="h-screen p-14" style="background-color: #1a2751;">
     <img
       src="@/assets/HeaderLogo.jpg"
       alt="Logo"
@@ -14,7 +14,8 @@
         <h2 class="text-8xl">-{{ selectedLocation }}</h2>
       </div>
     </div>
-    <div class="max-h-[1200px] overflow-scroll scroll-smooth scroll-auto">
+
+    <div class="max-h-[1200px] overflow-scroll scroll-smooth scroll-auto" id="scrollarea">
       <div class="text-white" v-for="presentation in presentations">
         <div class="pt-6 flex mt-2" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">
           <h2 class="text-2xl text-emerald-400 mx-6">In Progress</h2>
@@ -81,7 +82,6 @@
         <label
             :for="sponsor.sponsor"
             :class="{ 'border border-4 border-emerald-400 opacity-50': sponsor.active }"
-            class="h-50"
             :style="`background-image: url('${img_url}/images/sponsors/${sponsor.sponsor}'); display:inline-block;padding: 0 0 0 0px;`"
         ></label>
       </div>
@@ -180,9 +180,21 @@ input[type=checkbox] {
 }
 
 input[type=checkbox] + label{
-  height: 100px;
-  width: 100px;
+  height: 200px;
+  width: 200px;
   display:inline-block;
   padding: 0 0 0 0;
+  background-size: 100% 100%;
+}
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+#scrollarea::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#scrollarea {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>

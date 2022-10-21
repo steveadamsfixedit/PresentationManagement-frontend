@@ -1,6 +1,6 @@
 <template>
   <button
-      @click="isOpen = true"
+      @click="openModal"
       class="text-white font-light focus:ring-4 focus:ring-zinc-800 font-medium rounded-md text-sm px-5 py-2 m-2 mx-auto bg-zinc-500 hover:text-emerald-500 hover:bg-zinc-800 hover:border-emerald-500 transition duration-200 mr-2"
       type="button"
   >
@@ -52,7 +52,7 @@
             </div>
             <div class="text-center">
               <button type="button" @click="isOpen = false" class="w-1/3 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-800 mr-10">Cancel</button>
-              <button type="submit" value="submit" class="w-1/3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-400 dark:hover:bg-blue-500 dark:focus:ring-blue-800">Edit</button>
+              <button type="submit" value="submit" class="w-1/3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-400 dark:hover:bg-blue-500 dark:focus:ring-blue-800">Save</button>
             </div>
           </form>
         </div>
@@ -92,6 +92,11 @@ const presentationStore = usePresentationStore();
 let startdate = new Date();
 
 let enddate = new Date();
+
+function openModal(){
+  isOpen.value = true;
+  window.scrollTo(0,0);
+}
 
 async function onSubmit() {
   startdate.setFullYear(Number(date.value.substring(0, 4)), Number(date.value.substring(5, 7))-1, Number(date.value.substring(8, 10)))

@@ -1,6 +1,6 @@
 <template>
   <button
-      @click="isOpen = true"
+      @click="openModal"
       class="text-white font-light focus:ring-4 focus:ring-zinc-800 font-medium rounded-md text-sm px-5 py-2 m-2 mx-auto bg-zinc-500 hover:text-emerald-500 hover:bg-zinc-800 hover:border-emerald-500 transition duration-200"
       type="button"
   >
@@ -59,6 +59,11 @@ import { usePresentationStore } from '@/stores/presentations.js';
 const presentationStore = usePresentationStore();
 
 const file = ref(null);
+
+function openModal(){
+  isOpen.value = true;
+  window.scrollTo(0,0);
+}
 
 const handleUpload = async() => {
   let formData = new FormData();

@@ -1,5 +1,5 @@
 <template>
-  <button @click="isOpen = true">
+  <button @click="openModal">
     <font-awesome-icon :icon="['far', 'trash-can']" class="w-6 h-6 text-red-500 transition duration-200 hover:scale-125" />
   </button>
 
@@ -44,6 +44,11 @@ let isOpen = ref(false);
 // STORES
 import { usePresentationStore } from '@/stores/presentations.js';
 const presentationStore = usePresentationStore();
+
+function openModal(){
+  isOpen.value = true;
+  window.scrollTo(0,0);
+}
 
 async function onDelete() {
   await presentationStore.deletePresentation(props.id);

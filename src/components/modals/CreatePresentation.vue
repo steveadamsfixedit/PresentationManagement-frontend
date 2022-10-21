@@ -1,6 +1,6 @@
 <template>
   <button
-      @click="isOpen = true"
+      @click="openModal"
       class="text-white font-light focus:ring-4 focus:ring-zinc-800 font-medium rounded-md text-sm px-5 py-2.5 ml-2 m-2 mx-auto bg-zinc-500 hover:text-emerald-500 hover:bg-zinc-800 hover:border-emerald-500 transition duration-200 "
       type="button"
   >
@@ -84,7 +84,10 @@ let startdate = new Date();
 
 let enddate = new Date();
 
-
+function openModal(){
+  isOpen.value = true;
+  window.scrollTo(0,0);
+}
 // TODO-Make sure endtime is after time
 async function onSubmit() {
   startdate.setFullYear(Number(date.value.substring(0, 4)), Number(date.value.substring(5, 7))-1, Number(date.value.substring(8, 10)))
