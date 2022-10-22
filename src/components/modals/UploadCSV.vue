@@ -74,8 +74,13 @@ const handleCSVUpload = async() => {
           endtime: item[4].trim() + "T" + item[6].trim() + "Z",
           location: item[3].trim(),
           title: item[1].trim(),
-          speaker: item[7].trim() + " " + item[8].trim() + " & " + item[10].trim() + " " + item[11].trim() + " & " + item[13].trim() + " " + item[14].trim() + " & " + item[16].trim() + " " + item[17].trim() + " & " + item[19].trim() + " " + item[20].trim()
+          speaker: item[7].trim() + " " + item[8].trim()
         };
+
+        for(let i = 10; i <= 19; i+= 3)
+        if(item[i].trim() !== ""){
+          presentation.speaker += " & " + item[i].trim() + " " + item[i].trim()
+        }
 
         // console.log(presentation);
         await new Promise(resolve => setTimeout(resolve, 20));
