@@ -77,13 +77,16 @@
       <br>
 
       <h1 class="text-lg">Select the sponsors you want to appear on this display:</h1>
-      <div v-for="sponsor in sponsors" :id="sponsor">
-        <input type="checkbox" :name="sponsor.sponsor" :id="sponsor.sponsor" @click="sponsor.active = !sponsor.active" />
-        <label
-            :for="sponsor.sponsor"
-            :class="{ 'border border-4 border-emerald-400 opacity-50': sponsor.active }"
-            :style="`background-image: url('${img_url}/images/sponsors/${sponsor.sponsor}'); display:inline-block;padding: 0 0 0 0px;`"
-        ></label>
+      <div class="flex">
+        <div v-for="sponsor in sponsors" :id="sponsor" class="m-2">
+          <input type="checkbox" :name="sponsor.sponsor" :id="sponsor.sponsor" @click="sponsor.active = !sponsor.active" />
+          <label
+              :for="sponsor.sponsor"
+              :class="{ 'border border-4 border-emerald-400 opacity-50': sponsor.active }"
+              class="flex"
+              :style="`background-image: url('${img_url}/images/sponsors/${sponsor.sponsor}'); display:inline-block;padding: 0 0 0 0px;`"
+          ></label>
+        </div>
       </div>
 
       <br><br>
@@ -180,8 +183,8 @@ input[type=checkbox] {
 }
 
 input[type=checkbox] + label{
-  height: 200px;
   width: 200px;
+  height: 200px;
   display:inline-block;
   padding: 0 0 0 0;
   background-size: 100% 100%;
