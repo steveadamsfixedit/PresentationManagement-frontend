@@ -34,34 +34,17 @@
         </div>
       </div>
     </div>
-<!--    <div class="mt-8 grid grid-cols-6 gap-x-6 grid-rows-auto" v-for="presentation in presentations" >-->
-<!--      <div class="text-white text-right col-span-2">-->
-<!--        <div class="pt-3" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">-->
-<!--          <h2 class="text-4xl text-emerald-400">In Progress</h2>-->
-<!--          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>-->
-<!--        </div>-->
-<!--        <div class="pt-3" v-else-if="new Date(presentation.endtime) < date">-->
-<!--          <h2 class="text-4xl text-sky-500">Completed</h2>-->
-<!--          <h3 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>-->
-<!--        </div>-->
-<!--        <div class="pt-6" v-else>-->
-<!--          <h3 class="text-4xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h3>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="text-white text-left col-span-4 flex"  v-if="new Date(presentation.endtime) >= date">-->
-<!--        <h2 class="text-6xl">{{ presentation.title }}</h2>-->
-<!--&lt;!&ndash;        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>&ndash;&gt;-->
-<!--      </div>-->
-<!--    </div>-->
 
     <div>
       <div class="absolute inset-x-0 bottom-0 p-3">
-        <img
-            alt="Sponsor Logo"
-            v-for="sponsor in selectedSponsors"
-            :src="`${img_url}/images/sponsors/${sponsor.sponsor}`"
-            class="max-h-40 align-center mx-auto"
-        />
+        <div class="flex flex-wrap">
+          <img
+              alt="Sponsor Logo"
+              v-for="sponsor in selectedSponsors"
+              :src="`${img_url}/images/sponsors/${sponsor.sponsor}`"
+              class="max-h-40 align-center mx-auto"
+          />
+        </div>
       </div>
     </div>
   </div>
