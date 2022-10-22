@@ -5,13 +5,13 @@
       alt="Logo"
       class="max-w-4xl align-center mx-auto"
       />
-    <div class="grid grid-cols-6 gap-4 mb-5">
-      <div class="text-white text-right col-span-2">
+    <div class="grid grid-cols-5 gap-4 mb-5">
+      <div class="text-white text-left col-span-2">
         <h1 class="text-6xl font-light">{{ date.toLocaleTimeString() }}</h1>
         <h2 class="text-3xl font-light text-gray-300 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
       </div>
-      <div class="text-white text-left col-span-4 flex">
-        <h2 class="text-8xl">-{{ selectedLocation }}</h2>
+      <div class="text-white text-right col-span-3">
+        <h2 class="text-8xl">{{ selectedLocation }}</h2>
       </div>
     </div>
 
@@ -25,10 +25,10 @@
   <!--        <h2 class="text-3xl text-sky-500 mx-4">Completed</h2>-->
   <!--        <h2 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h2>-->
   <!--      </div>-->
-        <div class="pt-6 flex mt-2" v-else-if="new Date(presentation.time) >= date">
+        <div class="pt-6 flex mt-2" v-else-if="new Date(presentation.time) >= date && new Date(presentation.time).getDate() === date.getDate()">
           <h2 class="text-3xl mx-6">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h2>
         </div>
-        <div class="text-white text-left mx-4 pb-1 border-b-2 border-slate-500"  v-if="new Date(presentation.time) >= date">
+        <div class="text-white text-left mx-4 pb-1 border-b-2 border-slate-500"  v-if="new Date(presentation.time) >= date && new Date(presentation.time).getDate() === date.getDate()">
           <h2 class="text-5xl">{{ presentation.title }}</h2>
           <!--        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>-->
         </div>
@@ -112,6 +112,8 @@ presentationStore.updateDB()
 let locations = computed(() => presentationStore.getLocation);
 let sponsors = computed(() => presentationStore.getSponsors);
 
+
+
 import { ref } from 'vue';
 const img_url = ref(import.meta.env.VITE_API_URL || "");
 const settings = ref(true)
@@ -124,6 +126,8 @@ const month = ref(null);
 const day = ref(null);
 
 let presentations = computed(() => presentationStore.getPresentationsAt(selectedLocation))
+
+const intervalId = ref(null);
 
 function onSubmit() {
   if(selectedLocation.value != null){
