@@ -77,7 +77,7 @@
       <br>
 
       <h1 class="text-lg">Select the sponsors you want to appear on this display:</h1>
-      <div class="flex">
+      <div class="flex flex-wrap">
         <div v-for="sponsor in sponsors" :id="sponsor" class="m-2">
           <input type="checkbox" :name="sponsor.sponsor" :id="sponsor.sponsor" @click="sponsor.active = !sponsor.active" />
           <label
