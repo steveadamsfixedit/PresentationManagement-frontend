@@ -26,6 +26,9 @@
             <thead class="border-b">
             <tr>
               <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Session ID
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                 Date
               </th>
               <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -53,7 +56,10 @@
             </thead>
             <tbody>
               <tr class="border-b" v-for="presentation in presentationStore.getPresentations" :key="presentation.id">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
+                  {{ presentation.session_id }}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ new Date(presentation.time).getMonth() +1 }}/{{ new Date(presentation.time).getDate() }}/{{ new Date(presentation.time).getFullYear() }}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

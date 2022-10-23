@@ -27,6 +27,10 @@
           <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">Create Presentation</h3>
           <form class="space-y-6" @submit.prevent="onSubmit">
             <div>
+              <label for="session_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Session ID</label>
+              <input type="text" v-model="session_id" name="session_id" placeholder="123" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+            </div>
+            <div>
               <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Presentation Title</label>
               <input type="text" v-model="title" name="name" id="name" placeholder="Introduction to..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
@@ -69,6 +73,7 @@ library.add(faPencil);
 //MISC
 import { ref } from 'vue';
 let isOpen = ref(false);
+let session_id = ref("")
 let date = ref("");
 let time = ref("");
 let endtime = ref("");
@@ -99,6 +104,7 @@ async function onSubmit() {
   // console.log(enddate)
 
   let presentation = {
+    session_id: session_id.value,
     time: startdate.toISOString(),
     endtime: enddate.toISOString(),
     location: location.value,

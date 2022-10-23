@@ -70,6 +70,7 @@ const handleCSVUpload = async() => {
       // console.log(results.data);
       for (const item of results.data) {
         let presentation = {
+          session_id: item[0].trim(),
           time: item[4].trim() + "T" + item[5].trim() + "Z",
           endtime: item[4].trim() + "T" + item[6].trim() + "Z",
           location: item[3].trim(),
