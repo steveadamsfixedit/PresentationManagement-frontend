@@ -32,10 +32,24 @@
                   <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                   <p class="text-xs text-gray-500 dark:text-gray-400">Upload CSV File</p>
                 </div>
-                <input id="dropzone-file" type="file" ref="file" class="hidden" multiple v-on:change="handleCSVUpload()" accept="text/csv" />
+<!--                <input id="dropzone-file" type="file" ref="file" class="hidden" multiple v-on:change="handleCSVUpload()" accept="text/csv" />-->
+                <input id="dropzone-file" type="file" ref="file" class="hidden" multiple accept="text/csv" />
               </label>
             </div>
           </form>
+        </div>
+        <label for="timezone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select a timezone</label>
+        <select id="timezone" name="timezone" v-model="timezone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option selected value="Z">Zulu</option>
+          <option value="-04">GMT-04:00</option>
+          <option value="-05">GMT-05:00</option>
+          <option value="-06">GMT-06:00</option>
+          <option value="-07">GMT-07:00</option>
+          <option value="-08">GMT-08:00</option>
+        </select>
+        <div class="text-center m-5 mt-10">
+          <button type="button" @click="isOpen = false" class="w-1/3 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-800 mr-10">Cancel</button>
+          <button type="button" @click="handleCSVUpload" class="w-1/3 text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-400 dark:hover:bg-emerald-500 dark:focus:ring-emerald-800">Upload</button>
         </div>
       </div>
     </div>
@@ -56,6 +70,7 @@ import { usePresentationStore } from '@/stores/presentations.js';
 const presentationStore = usePresentationStore();
 
 const file = ref(null);
+const timezone = ref(null);
 
 function openModal(){
   isOpen.value = true;
@@ -71,8 +86,8 @@ const handleCSVUpload = async() => {
       for (const item of results.data) {
         let presentation = {
           session_id: item[0].trim(),
-          time: item[4].trim() + "T" + item[5].trim() + "Z",
-          endtime: item[4].trim() + "T" + item[6].trim() + "Z",
+          time: item[4].trim() + "T" + item[5].trim() + timezone.value + ":00",
+          endtime: item[4].trim() + "T" + item[6].trim() + timezone.value + ":00",
           location: item[3].trim(),
           title: item[1].trim(),
           speaker: item[7].trim() + " " + item[8].trim()
@@ -82,6 +97,7 @@ const handleCSVUpload = async() => {
         if(item[i].trim() !== ""){
           presentation.speaker += " & " + item[i].trim() + " " + item[i].trim()
         }
+
 
         // console.log(presentation);
         await new Promise(resolve => setTimeout(resolve, 20));
