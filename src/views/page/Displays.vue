@@ -160,7 +160,6 @@ const days = {
 
 
 setInterval(() => {
-  console.log(date.value.getDay())
   date.value = new Date()
   day.value = days[date.value.getDay()]
   month.value = months[date.value.getMonth()]
