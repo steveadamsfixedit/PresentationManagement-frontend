@@ -83,8 +83,8 @@ let endtime = ref(props.presentation.endtime);
 
 // date.value = `${new Date(time.value).getFullYear()}-${new Date(time.value).getMonth()+1}-${new Date(time.value).getDate()}`
 date.value = new Date(time.value).toISOString().split('T')[0]
-time.value = `${new Date(time.value).getHours() + 1}:${new Date(time.value).getMinutes()}`
-endtime.value = `${new Date(endtime.value).getHours() + 1}:${new Date(endtime.value).getMinutes()}`
+time.value = `${new Date(time.value).getHours()}:${new Date(time.value).getMinutes()}`
+endtime.value = `${new Date(endtime.value).getHours()}:${new Date(endtime.value).getMinutes()}`
 
 let location = ref(props.presentation.location);
 let title = ref(props.presentation.title);
@@ -118,7 +118,7 @@ async function onSubmit() {
     title: title.value,
     speaker: speaker.value
   };
-  // console.log(presentation);
+  console.log(presentation);
   await presentationStore.updatePresentation(props.presentation.id, presentation);
   isOpen.value = false;
 }
