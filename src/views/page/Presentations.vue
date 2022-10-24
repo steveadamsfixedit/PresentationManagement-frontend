@@ -10,7 +10,7 @@
             </label>
           </div>
           <div class="flex mt-4 mr-4">
-<!--            <download-room-files />-->
+            <download-room-files />
             <upload-sponsors />
             <create-presentation />
             <upload-c-s-v />

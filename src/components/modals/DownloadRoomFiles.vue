@@ -59,17 +59,17 @@ function openModal(){
   isOpen.value = true;
   window.scrollTo(0,0);
 }
-
+import axios from 'axios';
 function downloadFiles(){
-  console.log("Downloading Files")
-  const link = document.createElement('a')
-  presentations.value.forEach(async (presentation) => {
-    if(presentation.location === selectedLocation.value && presentation.powerpoint){
-      console.log("Downloading... " + presentation.powerpoint)
-      link.href = `${import.meta.env.VITE_API_URL}/images/${presentation.powerpoint}`
-      link.click()
-    }
-  })
+  axios.post(`${import.meta.env.VITE_API_URL}/presentation/pp/`, { location: selectedLocation.value}, { responseType: 'blob',  })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'application/zip' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = selectedLocation.value+".zip"
+        link.click()
+        URL.revokeObjectURL(link.href)
+      }).catch(console.error)
   isOpen.value = false;
 }
 </script>
