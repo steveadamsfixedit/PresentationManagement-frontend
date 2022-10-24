@@ -10,6 +10,7 @@
             </label>
           </div>
           <div class="flex mt-4 mr-4">
+<!--            <download-room-files />-->
             <upload-sponsors />
             <create-presentation />
             <upload-c-s-v />
@@ -55,7 +56,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr class="border-b" v-for="presentation in presentationStore.getPresentations" :key="presentation.id">
+              <tr class="border-b" v-for="presentation in presentationStore.getPresentations" :key="presentation.session_id">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
                   {{ presentation.session_id }}
                 </td>
@@ -78,8 +79,18 @@
                   {{ presentation.speaker }}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  <span v-if="presentation['powerpoint']">{{ presentation.powerpoint }}</span>
-                  <span v-else><upload-presentation :id="presentation.id" /></span>
+                  <span v-if="presentation['powerpoint']">
+                    <a
+                        class="text-lg"
+                        :href="`${api_url}/images/${presentation.powerpoint}`"
+                      >
+                      {{ presentation.powerpoint }}
+                    </a>
+                    <delete-powerpoint :id="presentation.id" />
+                  </span>
+                  <span v-else>
+                    <upload-presentation :session_id="presentation.session_id" />
+                  </span>
                 </td>
                 <td>
                   <edit-presentation :presentation="presentation" />
@@ -100,12 +111,16 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 library.add(faMagnifyingGlass);
 
+// COMPONENTS
 import UploadCSV from '@/components/modals/UploadCSV.vue';
 import EditPresentation from "@/components/modals/EditPresentation.vue";
 import CreatePresentation from "@/components/modals/CreatePresentation.vue";
 import DeletePresentation from "@/components/modals/DeletePresentation.vue";
 import UploadPresentation from "@/components/modals/UploadPresentation.vue";
 import UploadSponsors from "@/components/modals/UploadSponsors.vue";
+import DownloadRoomFiles from "@/components/modals/DownloadRoomFiles.vue";
+import DeletePowerpoint from "@/components/modals/DeletePowerpoint.vue";
+
 
 // STORES
 import { usePresentationStore } from '@/stores/presentations.js';
@@ -113,8 +128,8 @@ import { usePresentationStore } from '@/stores/presentations.js';
 const presentationStore = usePresentationStore();
 presentationStore.updateDB()
 
-// import { ref } from 'vue';
-// const timer = ref("");
+import {ref} from "vue";
+const api_url = ref(import.meta.env.VITE_API_URL || "");
 
 const timer = setInterval(() => {
   presentationStore.updateDB()
