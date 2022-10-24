@@ -35,6 +35,10 @@
               <input type="text" v-model="title" name="name" id="name" placeholder="Introduction to..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div>
+              <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Presentation Description/subtitle</label>
+              <textarea type="text" v-model="description" name="name" id="name"  placeholder="A very important introduction to..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+            </div>
+            <div>
               <label for="speaker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Speaker Name - Separate multiple by comma (eg. John Smith, Bob Adams)</label>
               <input type="text" v-model="speaker" name="speaker" id="speaker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="John Adams" required>
             </div>
@@ -79,6 +83,7 @@ let time = ref("");
 let endtime = ref("");
 let location = ref("");
 let title = ref("");
+let description = ref("");
 let speaker = ref("");
 
 // STORES
@@ -109,6 +114,7 @@ async function onSubmit() {
     endtime: enddate.toISOString(),
     location: location.value,
     title: title.value,
+    description: description.value,
     speaker: speaker.value
   };
   // console.log(presentation);

@@ -90,6 +90,7 @@ const handleCSVUpload = async() => {
           endtime: item[4].trim() + "T" + item[6].trim() + timezone.value + ":00",
           location: item[3].trim(),
           title: item[1].trim(),
+          description: item[2].trim(),
           speaker: item[7].trim() + " " + item[8].trim()
         };
 
