@@ -6,24 +6,22 @@
           <div class="flex">
             <label class="ml-4 block relative flex items-center text-zinc-300 focus-within:text-emerald-400">
               <font-awesome-icon :icon="['fas', 'magnifying-glass']" class="w-5 h-5 absolute ml-3 mt-1 pointer-events-none" />
-              <input type="search" v-model="search" placeholder="Search..." class="pl-10 pr-3 mt-1 block w-full px-3 py-2 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-300 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"/>
+              <input type="search" placeholder="Search..." v-model="search" class="pl-10 pr-3 mt-1 block w-full px-3 py-2 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-300 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"/>
             </label>
-          </div>
-          <div class="flex mt-4 mr-4">
-            <download-room-files />
-            <upload-sponsors />
-            <create-presentation />
-            <upload-c-s-v />
+            <label for="room" class="text-white">Selection which location you want to download files for</label>
+            <select id="room" name="room" v-model="selectedLocation" class="pr-3 mt-1 block w-1/3 px-3 py-2 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-300 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500">
+              <option v-for="location in locations" :id="location.id" :value="location">{{ location }}</option>
+            </select>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="overflow-hidden">
-          <table class="min-w-full">
+  <div class="flex">
+    <div class="w-screen sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block w-screen sm:px-6 lg:px-8">
+        <div class="w-screen">
+          <table class="table-fixed">
             <thead class="border-b">
             <tr>
               <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
@@ -78,7 +76,7 @@
                 <td class="text-sm text-gray-900 font-light px-6 py-4">
                   {{ presentation.speaker }}
                 </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4">
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <span v-if="presentation['powerpoint']">
                     <a
                         class="text-lg"
@@ -86,15 +84,13 @@
                       >
                       {{ presentation.powerpoint }}
                     </a>
-                    <delete-powerpoint :id="presentation.id" />
                   </span>
                   <span v-else>
                     <upload-presentation :session_id="presentation.session_id" />
                   </span>
                 </td>
-                <td class="whitespace-nowrap">
-                  <edit-presentation :presentation="presentation" />
-                  <delete-presentation :id="presentation.id" />
+                <td>
+                  <info-presentation :presentation="presentation" />
                 </td>
               </tr>
             </tbody>
@@ -112,14 +108,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 library.add(faMagnifyingGlass);
 
 // COMPONENTS
-import UploadCSV from '@/components/modals/UploadCSV.vue';
-import EditPresentation from "@/components/modals/EditPresentation.vue";
-import CreatePresentation from "@/components/modals/CreatePresentation.vue";
-import DeletePresentation from "@/components/modals/DeletePresentation.vue";
-import UploadPresentation from "@/components/modals/UploadPresentation.vue";
-import UploadSponsors from "@/components/modals/UploadSponsors.vue";
-import DownloadRoomFiles from "@/components/modals/DownloadRoomFiles.vue";
-import DeletePowerpoint from "@/components/modals/DeletePowerpoint.vue";
+import InfoPresentation from "@/components/modals/InfoPresentation.vue";
+import UploadPresentation from "@/components/modals/UploadPresentation.vue";;
 
 
 // STORES
@@ -136,13 +126,23 @@ const timer = setInterval(() => {
   presentationStore.updateDB()
 }, 15000)
 
-
 const search = ref("")
+const selectedLocation = ref("")
 
 let presentations = computed(() => presentationStore.getPresentations);
+let locations = computed(() => presentationStore.getLocation);
+
+const presentationsInRoom = computed(() => {
+  return presentations.value.filter(row => {
+    const room = row.location.toLowerCase();
+    const roomTerm = selectedLocation.value.toLowerCase();
+
+    return room === roomTerm;
+  })
+})
 
 const filteredPresentations = computed(() => {
-  return presentations.value.filter(row => {
+  return presentationsInRoom.value.filter(row => {
     const title = row.title.toLowerCase();
     const speaker = row.speaker.toLowerCase();
     const searchTerm = search.value.toLowerCase();
