@@ -26,13 +26,13 @@
           <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">Upload your Presentation File</h3>
           <form class="space-y-6">
             <div class="flex justify-center items-center w-full mt-2 mb-2">
-              <label :for="`dropzone-powerpoint-${props.session_id}`" class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+              <label :for="`dropzone-powerpoint-${props.presentation.session_id}`" class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                 <div class="flex flex-col justify-center items-center pt-5 pb-6">
                   <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                   <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                   <p class="text-xs text-gray-500 dark:text-gray-400">Upload File</p>
                 </div>
-                <input :id="`dropzone-powerpoint-${props.session_id}`" type="file" ref="file" class="hidden" v-on:change="handlePPUpload()" accept="*" />
+                <input :id="`dropzone-powerpoint-${props.presentation.session_id}`" type="file" ref="file" class="hidden" v-on:change="handlePPUpload()" accept="*" />
               </label>
             </div>
           </form>
@@ -52,7 +52,7 @@ import { ref } from 'vue';
 let isOpen = ref(false);
 
 // PROPS
-const props = defineProps(['session_id']);
+const props = defineProps(['presentation']);
 
 // STORES
 import { usePresentationStore } from '@/stores/presentations.js';
@@ -66,9 +66,10 @@ function openModal(){
 }
 
 const handlePPUpload = async() => {
+  presentationStore.addUploading(props.presentation.id);
   let formData = new FormData();
   formData.append("file", file.value.files[0]);
-  await presentationStore.uploadPowerpoint(props.session_id, formData);
+  await presentationStore.uploadPowerpoint(props.presentation.session_id, formData);
   isOpen.value = false
 };
 </script>

@@ -5,6 +5,7 @@ import { notify } from "@kyvg/vue3-notification";
 export const usePresentationStore = defineStore('presentation', {
 	state: () => ({
 		presentations: [],
+		uploading: [],
 		sponsors: [],
 		token: null
 	}),
@@ -21,6 +22,7 @@ export const usePresentationStore = defineStore('presentation', {
 			})
 			return locations
 		},
+		getUploading: state => state.uploading,
 	},
 	actions: {
 		logout() {
@@ -112,6 +114,10 @@ export const usePresentationStore = defineStore('presentation', {
 				});
 		},
 		async deletePowerpoint(id){
+			const index = this.uploading.indexOf(id);
+			if (index > -1) { // only splice array when item is found
+				this.uploading.splice(index, 1); // 2nd parameter means remove one item only
+			}
 			Api.delete(`/presentation/pp/${id}`)
 				.then(() => {
 					this.updateDB();
@@ -158,6 +164,9 @@ export const usePresentationStore = defineStore('presentation', {
 			})
 
 			return presentationsAtLocation
+		},
+		addUploading(id){
+			this.uploading.push(id)
 		}
 	},
 });
