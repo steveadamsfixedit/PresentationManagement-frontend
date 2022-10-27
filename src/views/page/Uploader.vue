@@ -8,6 +8,12 @@
               <font-awesome-icon :icon="['fas', 'magnifying-glass']" class="w-5 h-5 absolute ml-3 mt-1 pointer-events-none" />
               <input type="search" placeholder="Search..." v-model="search" class="pl-10 pr-3 mt-1 block w-full px-3 py-2 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-300 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"/>
             </label>
+            <label for="room" class="ml-4 block relative flex items-center text-zinc-300 focus-within:text-emerald-400">
+              <select id="room" name="room" v-model="without" class="pr-3 mt-1 block w-full px-3 py-2 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-300 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500">
+                <option value="all" selected>ALL</option>
+                <option value="Without Presentation" selected>Without Presentation</option>
+              </select>
+            </label>
           </div>
         </div>
       </div>
@@ -21,7 +27,7 @@
             <thead class="border-b">
             <tr>
               <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
-                Session ID
+                Presentation ID
               </th>
               <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
                 Date
@@ -129,12 +135,24 @@ const timer = setInterval(() => {
 }, 15000)
 
 const search = ref("")
+const without = ref("all")
 
 let presentations = computed(() => presentationStore.getPresentations);
 let uploading = computed(() => presentationStore.getUploading);
 
-const filteredPresentations = computed(() => {
+const presentationsWithoutPowerpoint = computed(() => {
   return presentations.value.filter(row => {
+    const room = row.location.toLowerCase();
+    if(without.value === "all"){
+      return true
+    } else {
+      return !row.powerpoint;
+    }
+  })
+})
+
+const filteredPresentations = computed(() => {
+  return presentationsWithoutPowerpoint.value.filter(row => {
     const title = row.title.toLowerCase();
     const speaker = row.speaker.toLowerCase();
     const searchTerm = search.value.toLowerCase();
@@ -144,7 +162,6 @@ const filteredPresentations = computed(() => {
   });
 })
 
-// presentationStore.getters.getPresentations()
 
 </script>
 
