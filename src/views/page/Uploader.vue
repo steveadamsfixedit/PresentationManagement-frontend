@@ -135,7 +135,7 @@ const timer = setInterval(() => {
 }, 15000)
 
 const search = ref("")
-const without = ref("all")
+const without = ref("Without Presentation")
 
 let presentations = computed(() => presentationStore.getPresentations);
 let uploading = computed(() => presentationStore.getUploading);
