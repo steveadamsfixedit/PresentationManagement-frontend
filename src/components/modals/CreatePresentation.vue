@@ -98,7 +98,6 @@ function openModal(){
   isOpen.value = true;
   window.scrollTo(0,0);
 }
-// TODO-Make sure endtime is after time
 async function onSubmit() {
   startdate.setFullYear(Number(date.value.substring(0, 4)), Number(date.value.substring(5, 7))-1, Number(date.value.substring(8, 10)))
   startdate.setHours(Number(time.value.substring(0, 2)), Number(time.value.substring(3, 5)), 0)
