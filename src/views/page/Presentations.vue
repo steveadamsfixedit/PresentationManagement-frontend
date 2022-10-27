@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="flex justify-between overflow-hidden">
           <div class="flex">
@@ -19,11 +19,11 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="overflow-hidden">
-          <table class="min-w-full">
+  <div class="flex">
+    <div class="w-screen sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block w-screen sm:px-6 lg:px-8">
+        <div class="w-screen">
+          <table class="table-fixed">
             <thead class="border-b">
             <tr>
               <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
@@ -96,7 +96,7 @@
                     <upload-presentation :presentation="presentation" />
                   </span>
                 </td>
-                <td class="whitespace-nowrap">
+                <td class="whitespace-nowrap pr-6">
                   <edit-presentation :presentation="presentation" />
                   <delete-presentation :id="presentation.id" />
                 </td>
