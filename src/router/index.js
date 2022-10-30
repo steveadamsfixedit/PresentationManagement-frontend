@@ -9,6 +9,14 @@ const routes = [
 		component: () => import('@/views/page/Presentations.vue')
 	},
 	{
+		path: '/uploader/',
+		component: () => import('@/views/page/Uploader.vue')
+	},
+	{
+		path: '/rooms/',
+		component: () => import('@/views/page/Rooms.vue')
+	},
+	{
 		path: '/',
 		component: () => import('@/views/page/Displays.vue')
 	},

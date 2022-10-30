@@ -2,18 +2,21 @@
   <div class="flex flex-col">
     <div class="">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="flex justify-between overflow-hidden">
+        <div class="flex  overflow-hidden">
           <div class="flex">
             <label class="ml-4 block relative flex items-center text-zinc-300 focus-within:text-emerald-400">
               <font-awesome-icon :icon="['fas', 'magnifying-glass']" class="w-5 h-5 absolute ml-3 mt-1 pointer-events-none" />
-              <input type="search" v-model="search" placeholder="Search..." class="pl-10 pr-3 mt-1 block w-full px-3 py-2 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-300 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"/>
+              <input type="search" placeholder="Search..." v-model="search" class="pl-10 pr-3 mt-1 block w-full px-3 py-2 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-600 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"/>
+            </label>
+            <label for="room" class="ml-4 block relative flex items-center text-zinc-300 focus-within:text-emerald-400">
+              <select id="room" name="room" v-model="selectedLocation" class="pr-3 mt-1 block w-full px-3 py-2.5 bg-zinc-400 border border-zinc-600 rounded-md text-sm text-zinc-600 shadow-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500">
+                <option value="SELECT LOCATION" selected>SELECT LOCATION</option>
+                <option v-for="location in locations" :id="location.id" :value="location">{{ location }}</option>
+              </select>
             </label>
           </div>
-          <div class="flex mt-4 mr-4">
+          <div class="flex mt-1 ml-2">
             <download-room-files />
-            <upload-sponsors />
-            <create-presentation />
-            <upload-c-s-v />
           </div>
         </div>
       </div>
@@ -78,7 +81,7 @@
                 <td class="text-sm text-gray-900 font-light px-6 py-4">
                   {{ presentation.speaker }}
                 </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4">
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <span v-if="presentation['powerpoint']">
                     <a
                         class="text-lg"
@@ -86,7 +89,6 @@
                     >
                       {{ presentation.powerpoint }}
                     </a>
-                    <delete-powerpoint :id="presentation.id" />
                   </span>
                   <svg v-else-if="uploading.includes(presentation.id)" class="inline ml-4 w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" viewBox="0 0 100 101" fill="white" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -96,9 +98,8 @@
                     <upload-presentation :presentation="presentation" />
                   </span>
                 </td>
-                <td class="whitespace-nowrap pr-6">
-                  <edit-presentation :presentation="presentation" />
-                  <delete-presentation :id="presentation.id" />
+                <td class="pr-6">
+                  <info-presentation :presentation="presentation" />
                 </td>
               </tr>
             </tbody>
@@ -116,14 +117,9 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 library.add(faMagnifyingGlass);
 
 // COMPONENTS
-import UploadCSV from '@/components/modals/UploadCSV.vue';
-import EditPresentation from "@/components/modals/EditPresentation.vue";
-import CreatePresentation from "@/components/modals/CreatePresentation.vue";
-import DeletePresentation from "@/components/modals/DeletePresentation.vue";
+import InfoPresentation from "@/components/modals/InfoPresentation.vue";
 import UploadPresentation from "@/components/modals/UploadPresentation.vue";
-import UploadSponsors from "@/components/modals/UploadSponsors.vue";
 import DownloadRoomFiles from "@/components/modals/DownloadRoomFiles.vue";
-import DeletePowerpoint from "@/components/modals/DeletePowerpoint.vue";
 
 
 // STORES
@@ -140,14 +136,24 @@ const timer = setInterval(() => {
   presentationStore.updateDB()
 }, 15000)
 
-
 const search = ref("")
+const selectedLocation = ref("SELECT LOCATION")
 
 let presentations = computed(() => presentationStore.getPresentations);
+let locations = computed(() => presentationStore.getLocation);
 let uploading = computed(() => presentationStore.getUploading);
 
-const filteredPresentations = computed(() => {
+const presentationsInRoom = computed(() => {
   return presentations.value.filter(row => {
+    const room = row.location.toLowerCase();
+    const roomTerm = selectedLocation.value.toLowerCase();
+
+    return room === roomTerm;
+  })
+})
+
+const filteredPresentations = computed(() => {
+  return presentationsInRoom.value.filter(row => {
     const title = row.title.toLowerCase();
     const speaker = row.speaker.toLowerCase();
     const searchTerm = search.value.toLowerCase();

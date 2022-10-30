@@ -5,6 +5,7 @@ import { notify } from "@kyvg/vue3-notification";
 export const usePresentationStore = defineStore('presentation', {
 	state: () => ({
 		presentations: [],
+		uploading: [],
 		sponsors: [],
 		token: null
 	}),
@@ -21,6 +22,7 @@ export const usePresentationStore = defineStore('presentation', {
 			})
 			return locations
 		},
+		getUploading: state => state.uploading,
 	},
 	actions: {
 		logout() {
@@ -94,13 +96,34 @@ export const usePresentationStore = defineStore('presentation', {
 					});
 				});
 		},
-		async uploadPowerpoint(id, powerpoint){
-			Api.put(`/presentation/pp/${id}`, powerpoint, { headers: { 'Content-Type':'multipart/form-data' } })
+		async uploadPowerpoint(session_id, powerpoint){
+			Api.put(`/presentation/pp/${session_id}`, powerpoint, { headers: { 'Content-Type':'multipart/form-data' } })
 				.then(() => {
 					this.updateDB()
 					notify({
 						type: 'success',
 						title: "Presentation uploaded.",
+					});
+				})
+				.catch((err) => {
+					notify({
+						type: 'error',
+						title: `Error Code: ${err.response.status}`,
+						text: err.response.data.error
+					});
+				});
+		},
+		async deletePowerpoint(id){
+			const index = this.uploading.indexOf(id);
+			if (index > -1) { // only splice array when item is found
+				this.uploading.splice(index, 1); // 2nd parameter means remove one item only
+			}
+			Api.delete(`/presentation/pp/${id}`)
+				.then(() => {
+					this.updateDB();
+					notify({
+						type: 'success',
+						title: "The presentation file has been deleted.",
 					});
 				})
 				.catch((err) => {
@@ -141,6 +164,9 @@ export const usePresentationStore = defineStore('presentation', {
 			})
 
 			return presentationsAtLocation
+		},
+		addUploading(id){
+			this.uploading.push(id)
 		}
 	},
 });
