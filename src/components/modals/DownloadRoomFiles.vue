@@ -60,16 +60,35 @@ function openModal(){
   window.scrollTo(0,0);
 }
 import axios from 'axios';
+import {notify} from "@kyvg/vue3-notification";
 function downloadFiles(){
+  notify({
+    title: "Compressing presentation files.",
+  });
   axios.post(`${import.meta.env.VITE_API_URL}/presentation/pp/`, { location: selectedLocation.value}, { responseType: 'blob',  })
       .then(response => {
+        notify({
+          title: "Finished Compressing. Downloading zip file...",
+        });
         const blob = new Blob([response.data], { type: 'application/zip' })
         const link = document.createElement('a')
         link.href = URL.createObjectURL(blob)
         link.download = selectedLocation.value+".zip"
         link.click()
+        notify({
+          type: "success",
+          title: "Done!",
+        });
         URL.revokeObjectURL(link.href)
-      }).catch(console.error)
-  isOpen.value = false;
+      }).catch((err) => {
+        notify({
+          type: 'error',
+          title: `Error Code: ${err.response.status}`,
+          text: err.response.data.error
+        });
+      })
+      .finally(() => {
+        isOpen.value = false;
+      })
 }
 </script>
