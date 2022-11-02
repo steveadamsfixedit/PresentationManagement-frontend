@@ -10,6 +10,11 @@
             </label>
           </div>
           <div class="flex mt-4 mr-4">
+            <button
+                type="button"
+                class="text-white font-light focus:ring-4 focus:ring-zinc-800 font-medium rounded-md text-sm px-5 py-2.5 ml-2 m-2 mx-auto bg-zinc-500 hover:text-emerald-500 hover:bg-zinc-800 hover:border-emerald-500 transition duration-200"
+                @click="downloadCSV"
+            >Download CSV</button>
             <download-room-files />
             <upload-sponsors />
             <create-presentation />
@@ -145,6 +150,31 @@ const search = ref("")
 
 let presentations = computed(() => presentationStore.getPresentations);
 let uploading = computed(() => presentationStore.getUploading);
+
+function downloadCSV(){
+  let csv = 'Presentation ID, Date, Start Time, End Time, Location, Title, Speaker, Presentation\n';
+  presentations.value.forEach((pres) => {
+    csv += (pres.session_id + ",");
+    csv += (`${new Date(pres.time).getMonth() +1 }/${ new Date(pres.time).getDate() }/${ new Date(pres.time).getFullYear()}` + ",");
+    csv += (`${ new Date(pres.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }` + ",");
+    csv += (`${ new Date(pres.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }` + ",");
+    csv += (`"${pres.location}"` + ",");
+    csv += (`"${pres.title.replace(`"`, `""`)}"` + ",");
+    csv += (`"${pres.speaker.replace(`"`, `""`)}"` + ",");
+    csv += ((pres.powerpoint ?? 'N/A') + ",");
+
+    csv += "\n";
+  });
+
+  csv.slice(0, -2);
+  // console.log(csv);
+  const anchor = document.createElement('a');
+  anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  anchor.target = '_blank';
+  anchor.download = 'Presentations.csv';
+  anchor.click();
+}
+
 
 const filteredPresentations = computed(() => {
   return presentations.value.filter(row => {
