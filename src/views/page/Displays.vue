@@ -1,9 +1,9 @@
 <template>
-  <div v-if="!settings" class="h-screen p-14" style="background-color: #1a2751;">
+  <div v-if="!settings" class="h-screen p-14" style="background-color: #1CA247;">
     <img
       src="@/assets/HeaderLogo.jpg"
       alt="Logo"
-      class="max-w-4xl align-center mx-auto"
+      class="max-w-full align-center mx-auto"
       />
     <div class="grid grid-cols-5 gap-4 mb-5">
       <div class="text-white text-left col-span-2">
