@@ -6,26 +6,26 @@
       class="max-w-full align-center mx-auto"
       />
     <div class="grid grid-cols-5 gap-4 mb-5">
-      <div class="text-white text-left col-span-2">
+      <div class="text-gray-800 text-left col-span-2">
         <h1 class="text-6xl font-light">{{ date.toLocaleTimeString() }}</h1>
-        <h2 class="text-3xl font-light text-gray-300 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
+        <h2 class="text-3xl font-light text-gray-600 underline">{{ day }}, {{ month }} {{ date.getDate() }}</h2>
       </div>
-      <div class="text-white text-right col-span-3">
+      <div class="text-gray-800 text-right col-span-3">
         <h2 class="text-8xl">{{ selectedLocation }}</h2>
       </div>
     </div>
 
     <div class="max-h-[1200px] overflow-scroll scroll-smooth scroll-auto" id="scrollarea">
-      <div class="text-white" v-for="presentation in presentations">
+      <div class="text-gray-800" v-for="presentation in presentations">
 <!--        SCHEDULE -->
         <div class="pt-6 flex mt-2" v-if="new Date(presentation.time) < date && new Date(presentation.endtime) > date">
-          <h2 class="text-3xl text-emerald-400 mx-5">In Progress</h2>
+          <h2 class="text-3xl text-gray-800 mx-5">In Progress</h2>
           <h2 class="text-3xl">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h2>
         </div>
         <div class="pt-6 flex mt-2" v-else-if="new Date(presentation.time) >= date && new Date(presentation.time).getDate() === date.getDate()">
           <h2 class="text-3xl mx-6">{{ new Date(presentation.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(presentation.endtime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</h2>
         </div>
-        <div class="text-white text-left mx-4 pb-1 border-b-2 border-slate-500"  v-if="new Date(presentation.endtime) >= date && new Date(presentation.time).getDate() === date.getDate()">
+        <div class="text-gray-600 text-left mx-4 pb-1 border-b-2 border-slate-500"  v-if="new Date(presentation.endtime) >= date && new Date(presentation.time).getDate() === date.getDate()">
           <h2 class="text-5xl">{{ presentation.title }}</h2>
           <!--        <h2 class="text-4xl text-gray-300 font-normal">Presented by: {{ presentation.speaker }}</h2>-->
         </div>
