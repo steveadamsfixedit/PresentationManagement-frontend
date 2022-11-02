@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!settings" class="h-screen p-14" style="background-color: #1CA247;">
+  <div v-if="!settings" class="h-screen p-14">
     <img
       src="@/assets/HeaderLogo.jpg"
       alt="Logo"
